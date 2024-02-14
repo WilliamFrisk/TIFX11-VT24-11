@@ -1,1 +1,1 @@
-# Automatiserad Biomekanisk Rörelseanalys med Webbapplikation
+# Automatiserad biomekanisk rörelseanalys av löpning i skadeförebyggande syfte
