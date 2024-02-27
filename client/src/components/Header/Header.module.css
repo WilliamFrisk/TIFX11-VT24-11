@@ -1,0 +1,33 @@
+.backgroundBlue{
+     background: #3E4362;
+     height: 5rem;
+}
+
+.logoText{
+     font-family: "Bai Jamjuree", sans-serif;
+     color: white;
+     font-size: 1.6rem;
+     font-weight: bold;
+     margin-left: 1rem;
+}
+
+.flagIcon {
+     position: absolute;
+     top: 0; 
+     right: 0; 
+     margin-top: 28px; 
+     margin-right: 30px;
+     max-width: 3rem;
+     max-height: 1.5rem;
+}
+
+.transparentHamburgerBtn {
+     
+     
+     background-color: transparent;
+     border: none;
+     color: white; /* For the icon */
+     min-width: 4rem;
+     min-height: 4rem;
+ }
+
