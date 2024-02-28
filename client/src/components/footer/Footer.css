@@ -4,12 +4,13 @@
   font-family: "Bai Jamjuree", sans-serif;
 }
 
-.col {
-  padding-right: 75px;
-}
-
 .text-align {
   text-align: left;
+}
+
+p.text-padding {
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
 .col-md-4 > h1,
@@ -31,11 +32,12 @@ h1 {
 }
 
 @media (max-width: 768px) {
-  .col {
-    padding-right: 12px;
-  }
-
   .text-align {
     text-align: center;
+  }
+
+  p.text-padding {
+    padding-left: 0vw;
+    padding-right: 0vw;
   }
 }

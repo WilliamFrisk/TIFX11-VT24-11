@@ -16,16 +16,18 @@ const Footer: React.FC = () => {
         </Col>
         <Col className="text-align" md={4}>
           <h1>Contact</h1>
-          <p className="m-0">
+          <p className="text-padding">
             Mail: <br />
-            <a href="mailto:weareprettycool@gmail.com" className="m-0">
+            <a href="mailto:weareprettycool@gmail.com">
               weareprettycool@gmail.com
             </a>
           </p>
         </Col>
         <Col>
           <h1>Code</h1>
-          <a href="https://github.com/WilliamFrisk/TIFX11-VT24-01">GitHub</a>
+          <p>
+            <a href="https://github.com/WilliamFrisk/TIFX11-VT24-01">GitHub</a>
+          </p>
         </Col>
       </Row>
     </Container>
