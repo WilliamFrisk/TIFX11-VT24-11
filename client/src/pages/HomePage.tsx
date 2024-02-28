@@ -1,9 +1,8 @@
 import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
-import Header from "../components/header/Header";
 
 const HomePage: React.FC = () => {
-  return <div className="vh-100"></div>;
+  return <Container fluid className="flex-grow-1"></Container>;
 };
 
 export default HomePage;

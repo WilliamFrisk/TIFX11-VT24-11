@@ -4,7 +4,7 @@ import "./Footer.css";
 
 const Footer: React.FC = () => {
   return (
-    <Container fluid>
+    <Container fluid className="background-container">
       <Row>
         <Col className="text-align">
           <h1>About us</h1>
