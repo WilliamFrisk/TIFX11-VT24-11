@@ -6,15 +6,15 @@ const Footer: React.FC = () => {
   return (
     <Container fluid>
       <Row>
-        <Col>
+        <Col className="text-align">
           <h1>About us</h1>
-          <p style={{ textAlign: "left" }}>
+          <p>
             We are a group of six students at Chalmers University of Technology.
             This website was made as a part of our bachelor's thesis to allow
             anyone to use our machine learning model.
           </p>
         </Col>
-        <Col style={{ textAlign: "left" }} md={4}>
+        <Col className="text-align" md={4}>
           <h1>Contact</h1>
           <p className="m-0">
             Mail: <br />
