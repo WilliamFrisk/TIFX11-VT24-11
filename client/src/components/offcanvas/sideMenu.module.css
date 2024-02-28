@@ -1,0 +1,56 @@
+.offcanvasBody {
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
+  background-color: #3e4362;
+  padding: 0px !important;
+}
+
+.offcanvasContent {
+  border-top-right-radius: 55px !important;
+  border-bottom-right-radius: 55px !important;
+  padding: 0px !important;
+}
+
+.offcanvasHeader {
+  color: whitesmoke;
+}
+
+.offcanvasMenu {
+  color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  cursor: pointer;
+  border-bottom: 1px solid #d5d5d5;
+  height: 4rem;
+  padding-left: 1rem;
+
+  font-family: "Bai Jamjuree", sans-serif;
+  font-weight: bold;
+}
+
+.menuItem span {
+  margin: 1rem !important;
+  font-size: 1.5rem;
+}
+
+.offcanvasFooter {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+
+  width: 50px;
+}
+
+.menuItem:hover {
+  background-color: #0f3460;
+}
+
+.offcanvasHeader svg {
+  cursor: pointer;
+}

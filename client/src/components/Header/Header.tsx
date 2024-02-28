@@ -20,7 +20,7 @@ const Header: React.FC = () => {
           onClick={() => setModalShow(true)}
           className={`${styles.transparentHamburgerBtn}`}
         >
-          <i className="bi bi-list"></i>
+          <i className="bi bi-list fs-3"></i>
         </Button>
 
         <SideMenu show={modalShow} onHide={handleHideModal} />
