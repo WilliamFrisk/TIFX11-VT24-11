@@ -1,8 +1,10 @@
-import React from "react";
-
+import React, { useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import UploadButton from "../components/uploadbutton/UploadButton";
+import TermsOfUseModal from "../components/termsofusemodal/TermsOfUseModal";
+
 const HomePage: React.FC = () => {
+  const [touModalShow, setTouModalShow] = useState(false);
   return (
     <Container fluid className="flex-grow-1">
       <Row className="h-100">
@@ -10,9 +12,13 @@ const HomePage: React.FC = () => {
           md={6}
           className="d-flex align-items-center justify-content-center"
         >
-          <UploadButton />
+          <UploadButton onClick={() => setTouModalShow(true)} />
         </Col>
         <Col md={6}></Col>
+        <TermsOfUseModal
+          show={touModalShow}
+          hide={() => setTouModalShow(false)}
+        />
       </Row>
     </Container>
   );
