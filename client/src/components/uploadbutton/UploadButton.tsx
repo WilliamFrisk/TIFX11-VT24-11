@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import styles from "./UploadButton.module.css";
 
 const UploadButton: React.FC = () => {
