@@ -12,11 +12,17 @@ Ensure you have `python3` and `pip` installed.
 ```
 - **Step 1:** Create a virtual enviroment:
 ```
-python -m venv venv
+python -m venv .venv
 ```
-- **Step 2:** Activate the virtual environment: 
+- **Step 2:** Activate the virtual environment:
+  
+On Windows:
 ```
 .venv\Scripts\activate
+```
+On Mac and Linux:
+```
+source .venv/bin/activate
 ```
 #### Note: 
 When you are finished, you must deactivate your virtual environment:
