@@ -1,27 +1,24 @@
 import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import styles from "./AboutUs.module.css";
-// background: #D9D9D9;
+import { useTranslation } from "react-i18next";
 
 const AboutUs: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <Container fluid className={`${styles.container} flex-grow-1`}>
       <div className={styles.background}>
         <Col>
           <Row>
-            <h1>About us</h1>
-            <p>
-              We are a group of six students at Chalmers University of
-              Technology. This website was made as a part of our bachelor's
-              thesis to allow anyone to use our machine learning model.
-            </p>
+            <h1>{t("about-us.about-us-title")}</h1>
+            <p>{t("about-us.about-us-body")}</p>
           </Row>
           <Row>
-            <h1>About our model</h1>
-            <p></p>
+            <h1>{t("about-us.about-our-model")}</h1>
+            <p>{t("about-us.about-our-model-body")}</p>
           </Row>
           <Row>
-            <h1>Code</h1>
+            <h1>{t("about-us.code")}</h1>
             <p>
               <a href="https://github.com/WilliamFrisk/TIFX11-VT24-01">
                 GitHub
@@ -29,9 +26,10 @@ const AboutUs: React.FC = () => {
             </p>
           </Row>
           <Row>
-            <h1>Contact us</h1>
+            <h1>{t("about-us.contact-us")}</h1>
             <p className="text-padding">
-              Mail: <br />
+              {t("about-us.mail")}
+              <br />
               <a href="mailto:weareprettycool@gmail.com">
                 weareprettycool@gmail.com
               </a>
