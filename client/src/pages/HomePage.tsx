@@ -1,7 +1,7 @@
 import React from "react";
+
 import { Row, Col, Container } from "react-bootstrap";
 import UploadButton from "../components/uploadbutton/UploadButton";
-
 const HomePage: React.FC = () => {
   return (
     <Container fluid className="flex-grow-1">
