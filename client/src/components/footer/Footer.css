@@ -1,0 +1,43 @@
+.background-container {
+  background-color: #3e4362;
+  color: white;
+  font-family: "Bai Jamjuree", sans-serif;
+}
+
+.text-align {
+  text-align: left;
+}
+
+p.text-padding {
+  padding-left: 10vw;
+  padding-right: 10vw;
+}
+
+.col-md-4 > h1,
+.col > h1 {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.col-md-4 > p,
+.col-md-4 > a,
+.col > p,
+.col > a {
+  font-size: 0.75rem;
+}
+
+h1 {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .text-align {
+    text-align: center;
+  }
+
+  p.text-padding {
+    padding-left: 0vw;
+    padding-right: 0vw;
+  }
+}
