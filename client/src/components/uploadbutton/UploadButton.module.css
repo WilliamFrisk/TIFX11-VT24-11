@@ -1,0 +1,13 @@
+.button {
+  font-family: "Bai Jamjuree", sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 50px;
+  border-width: 3px;
+  border-color: black;
+  border-radius: 30px;
+  height: 100px;
+  width: 80%;
+  background-color: rgb(217, 217, 217);
+  text-align: center;
+}
