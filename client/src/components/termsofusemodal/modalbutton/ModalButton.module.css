@@ -7,7 +7,8 @@
   border-color: black;
   border-radius: 30px;
   height: auto;
-  width: 80%;
+  min-width: 80%;
+  max-width: auto;
   background-color: rgb(217, 217, 217);
   text-align: center;
 }

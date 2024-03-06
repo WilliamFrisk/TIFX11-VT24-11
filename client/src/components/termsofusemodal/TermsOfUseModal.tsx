@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Modal, ModalBody, Row } from "react-bootstrap";
 import styles from "./TermsOfUseModal.module.css";
 import ModalButton from "./modalbutton/ModalButton";
 import { useTranslation } from "react-i18next";
+import ChooseFileButton from "./choosefilebutton/ChooseFileButton";
 
 interface TermsOfUseModalProps {
   show: boolean;
@@ -11,13 +12,15 @@ interface TermsOfUseModalProps {
 
 const TermsOfUseModal: React.FC<TermsOfUseModalProps> = ({ show, hide }) => {
   const { t } = useTranslation();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleChooseFile = () => {
-    // Interact with devices native file upload
+  const handleFileSelected = (file: File) => {
+    setSelectedFile(file);
   };
 
-  const handleUpload = () => {
+  const handleUpload = (file: File | null) => {
     // Send video to backend
+    console.log("Uploading file to backend, " + file?.name);
   };
 
   return (
@@ -41,13 +44,10 @@ const TermsOfUseModal: React.FC<TermsOfUseModalProps> = ({ show, hide }) => {
             <p className={styles.text}>{t("terms-of-use.fourth-line")}</p>
           </Row>
           <Row>
-            <ModalButton
-              text={t("terms-of-use.choose-button")}
-              onClick={handleChooseFile}
-            />
+            <ChooseFileButton onFileSelected={handleFileSelected} />
             <ModalButton
               text={t("terms-of-use.upload-button")}
-              onClick={handleUpload}
+              onClick={() => handleUpload(selectedFile)}
             />
             <ModalButton
               text={t("terms-of-use.quit-button")}
