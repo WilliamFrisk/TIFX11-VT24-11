@@ -32,10 +32,12 @@ const ChooseFileButton: React.FC<ChooseFileButtonProps> = ({
           style={{ display: "none" }}
           ref={fileInputRef}
           onChange={handleFileChange}
+          data-testid="input-element"
         />
         <button
           className={styles.button}
           onClick={() => fileInputRef.current?.click()}
+          data-testid="button-element"
         >
           {text}
         </button>
