@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Container, Modal, ModalBody, Row } from "react-bootstrap";
 import styles from "./TermsOfUseModal.module.css";
 import ModalButton from "./modalbutton/ModalButton";
+import { useTranslation } from "react-i18next";
 
 interface TermsOfUseModalProps {
   show: boolean;
@@ -9,6 +10,8 @@ interface TermsOfUseModalProps {
 }
 
 const TermsOfUseModal: React.FC<TermsOfUseModalProps> = ({ show, hide }) => {
+  const { t } = useTranslation();
+
   const handleChooseFile = () => {
     // Interact with devices native file upload
   };
@@ -29,27 +32,27 @@ const TermsOfUseModal: React.FC<TermsOfUseModalProps> = ({ show, hide }) => {
       <ModalBody>
         <Container>
           <Row>
-            <h4 className={`${styles.text} ${styles.title}`}>TERMS OF USE</h4>
-            <p className={styles.text}>
-              This model does not aim to give medical advice, consult with a
-              doctor or other specialist before adjusting your running gait{" "}
-            </p>
-            <p className={styles.text}>
-              When analysing your data the data is locally saved and then
-              deleted, you can pull back your data anytime by pressing quit{" "}
-            </p>
-            <p className={styles.text}>
-              The model has best results when only one person is in frame and
-              when at least 5 running gaits are included
-            </p>
-            <p className={styles.text}>
-              By using the model I agree with these terms
-            </p>
+            <h4 className={`${styles.text} ${styles.title}`}>
+              {t("terms-of-use.title")}
+            </h4>
+            <p className={styles.text}>{t("terms-of-use.first-line")}</p>
+            <p className={styles.text}>{t("terms-of-use.second-line")}</p>
+            <p className={styles.text}>{t("terms-of-use.third-line")}</p>
+            <p className={styles.text}>{t("terms-of-use.fourth-line")}</p>
           </Row>
           <Row>
-            <ModalButton text="CHOOSE FILE" onClick={handleChooseFile} />
-            <ModalButton text="UPLOAD" onClick={handleUpload} />
-            <ModalButton text="QUIT" onClick={() => hide()} />
+            <ModalButton
+              text={t("terms-of-use.choose-button")}
+              onClick={handleChooseFile}
+            />
+            <ModalButton
+              text={t("terms-of-use.upload-button")}
+              onClick={handleUpload}
+            />
+            <ModalButton
+              text={t("terms-of-use.quit-button")}
+              onClick={() => hide()}
+            />
           </Row>
         </Container>
       </ModalBody>
