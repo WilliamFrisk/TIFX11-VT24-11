@@ -10,22 +10,32 @@ Ensure you have `python3` and `pip` installed.
 ```
  cd server
 ```
-- **Step 1:** Activate the virtual environment: 
+- **Step 1:** Create a virtual enviroment:
+```
+python -m venv .venv
+```
+- **Step 2:** Activate the virtual environment:
+  
+On Windows:
 ```
 .venv\Scripts\activate
+```
+On Mac and Linux:
+```
+source .venv/bin/activate
 ```
 #### Note: 
 When you are finished, you must deactivate your virtual environment:
 ```
 deactivate
 ```
-- **Step 2:** Install dependencies from the `requirements.txt` file:
+- **Step 3:** Install dependencies from the `requirements.txt` file:
 ```
 pip install -r requirements.txt
 ```
 ### Run the Code
 
-- **Step 3:** To run the code:
+- **Step 4:** To run the code:
 ```
 python app.py
 ```

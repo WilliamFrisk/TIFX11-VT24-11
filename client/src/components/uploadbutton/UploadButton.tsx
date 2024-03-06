@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./UploadButton.module.css";
 
-const UploadButton: React.FC = () => {
-  const handleClick = () => {
-    // Display terms of use modal
-  };
+interface UploadButtonProps {
+  onClick: Function;
+}
 
+const UploadButton: React.FC<UploadButtonProps> = ({ onClick }) => {
   return (
-    <button className={styles.button} onClick={handleClick}>
+    <button className={styles.button} onClick={(e) => onClick(e)}>
       UPLOAD AN MP4-FILE
     </button>
   );

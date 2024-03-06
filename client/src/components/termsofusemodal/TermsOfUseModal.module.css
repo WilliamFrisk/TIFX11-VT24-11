@@ -1,0 +1,22 @@
+.dialog {
+  max-width: 90vw;
+}
+
+.content {
+  border-width: 2px;
+  border-color: black;
+  border-radius: 15px;
+  background: rgba(217, 217, 217, 1);
+}
+
+.text {
+  font-family: "Bai Jamjuree", sans-serif;
+  text-align: center;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 45px;
+}
+
+.title {
+  font-weight: 700;
+}
