@@ -3,6 +3,7 @@ import { Offcanvas, Image } from "react-bootstrap";
 import styles from "./sideMenu.module.css";
 import { X, HouseDoor, Envelope, Person, Github } from "react-bootstrap-icons";
 import swedenFlag from "../../assets/flags/sweden-flag-icon.svg";
+import ukFlag from "../../assets/flags/united-kingdom-flag-icon.svg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -17,6 +18,9 @@ const SideMenu: React.FC<SideMenuProps> = ({ show, onHide }) => {
 
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === "en" ? "se" : "en");
+  };
+  const isEnglish = () => {
+    return i18n.language === "en";
   };
 
   const handleHide = () => {
@@ -70,7 +74,15 @@ const SideMenu: React.FC<SideMenuProps> = ({ show, onHide }) => {
           </div>
         </div>
         <div className={styles.offcanvasFooter}>
-          <Image src={swedenFlag} alt="Sweden flag" onClick={toggleLanguage} />
+          {isEnglish() ? (
+            <Image src={ukFlag} alt="Uk flag" onClick={toggleLanguage} />
+          ) : (
+            <Image
+              src={swedenFlag}
+              alt="Sweden flag"
+              onClick={toggleLanguage}
+            />
+          )}
         </div>
       </Offcanvas.Body>
     </Offcanvas>
