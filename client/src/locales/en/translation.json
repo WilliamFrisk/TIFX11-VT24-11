@@ -1,0 +1,26 @@
+{
+  "sideMenu": {
+    "exit": "Close menu",
+    "home": "Home",
+    "contact-us": "Contact us",
+    "about-us": "About us",
+    "code": "Code"
+  },
+  "header-logo": "RUNNING GAIT ANALYSIS",
+  "footer": {
+    "contact-us": "Contact",
+    "about-us-title": "About us",
+    "about-us-body": "We are a group of six students at Chalmers University of Technology. This website was made as a part of our bachelor's thesis to allow anyone to use our machine learning model.",
+    "code": "Code",
+    "mail": "Email:"
+  },
+  "about-us": {
+    "about-us-title": "About us",
+    "about-us-body": "We are a group of six students at Chalmers University of Technology. This website was made as a part of our bachelor's thesis to allow anyone to use our machine learning model.",
+    "code": "Code",
+    "contact-us": "Contact us",
+    "mail": "Email: ",
+    "about-our-model": "About our model",
+    "about-our-model-body": "Our model is a convolutional neural network that takes in a video of a person running and outputs a prediction of the person's running style. The model was trained on a dataset of 1000 videos of people running, and it has an accuracy of 90% on the test set."
+  }
+}

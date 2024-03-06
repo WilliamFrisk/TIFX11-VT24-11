@@ -1,0 +1,26 @@
+{
+  "sideMenu": {
+    "exit": "Stäng menu",
+    "home": "Hem",
+    "contact-us": "Kontakta oss",
+    "about-us": "Om oss",
+    "code": "Kod"
+  },
+  "header-logo": "LÖPANDE GANGANALYS",
+  "footer": {
+    "contact-us": "Kontakta oss",
+    "about-us-title": "Om oss",
+    "about-us-body": "Vi är en grupp om sex studenter vid Chalmers tekniska högskola. Den här webbplatsen skapades som en del av vår kandidatuppsats för att alla ska kunna använda vår maskininlärningsmodell.",
+    "code": "Kod",
+    "mail": "E-post: "
+  },
+  "about-us": {
+    "about-us-title": "Om oss",
+    "about-us-body": "Vi är en grupp om sex studenter vid Chalmers tekniska högskola. Den här webbplatsen skapades som en del av vår kandidatuppsats för att alla ska kunna använda vår maskininlärningsmodell.",
+    "code": "Kod",
+    "contact-us": "Kontakta oss",
+    "mail": "E-post: ",
+    "about-our-model": "Om vår model",
+    "about-our-model-body": "Vår modell är ett konvolutionellt neuralt nätverk som tar in en video av en person som springer och matar ut en förutsägelse av personens löpstil. Modellen tränades på en datauppsättning med 1000 videor av människor som springer, och den har en noggrannhet på 90 % på testsetet."
+  }
+}
