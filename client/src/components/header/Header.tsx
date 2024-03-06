@@ -7,6 +7,10 @@ import styles from "./Header.module.css";
 import swedenFlag from "../../assets/flags/sweden-flag-icon.svg";
 import ukFlag from "../../assets/flags/united-kingdom-flag-icon.svg";
 import { useTranslation } from "react-i18next";
+
+/**
+ * @author Isac Hansson
+ */
 const Header: React.FC = () => {
   const [modalShow, setModalShow] = useState(false);
   const { t, i18n } = useTranslation();
