@@ -40,15 +40,15 @@ const Header: React.FC = () => {
 
       {isEnglish() ? (
         <Image
-          src={ukFlag}
-          alt="Uk flag"
+          src={swedenFlag}
+          alt="Sweden flag"
           className={styles.flagIcon}
           onClick={toggleLanguage}
         />
       ) : (
         <Image
-          src={swedenFlag}
-          alt="Sweden flag"
+          src={ukFlag}
+          alt="Uk flag"
           className={styles.flagIcon}
           onClick={toggleLanguage}
         />

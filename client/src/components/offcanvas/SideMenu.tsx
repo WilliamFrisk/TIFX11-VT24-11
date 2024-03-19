@@ -75,13 +75,13 @@ const SideMenu: React.FC<SideMenuProps> = ({ show, onHide }) => {
         </div>
         <div className={styles.offcanvasFooter}>
           {isEnglish() ? (
-            <Image src={ukFlag} alt="Uk flag" onClick={toggleLanguage} />
-          ) : (
             <Image
               src={swedenFlag}
               alt="Sweden flag"
               onClick={toggleLanguage}
             />
+          ) : (
+            <Image src={ukFlag} alt="Uk flag" onClick={toggleLanguage} />
           )}
         </div>
       </Offcanvas.Body>
