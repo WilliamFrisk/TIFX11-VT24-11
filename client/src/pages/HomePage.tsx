@@ -7,7 +7,7 @@ import picture from "../assets/example-result.png";
 const HomePage: React.FC = () => {
   const [touModalShow, setTouModalShow] = useState(false);
   return (
-    <Container fluid className="flex-grow-1 m-2">
+    <Container fluid className="flex-grow-1 m-2" style={{ maxWidth: "97%" }}>
       <Row className="h-100">
         <Col
           md={6}
@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
           md={6}
           className="d-flex align-items-center justify-content-center"
         >
-          <Image src={picture} />
+          <Image style={{ maxWidth: "100%", height: "auto" }} src={picture} />
         </Col>
         <TermsOfUseModal
           show={touModalShow}
