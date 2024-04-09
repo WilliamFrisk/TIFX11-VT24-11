@@ -8,7 +8,7 @@ class DefaultEndpoint(Resource):
     def get(self):
         return {'message': 'This is the default endpoint at /api/'}
 
-ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv'} 
+ALLOWED_EXTENSIONS = {'mp4'} # add allowed file extensions here 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
