@@ -7,14 +7,26 @@ interface ResultPageProps {
 }
 
 const Result: React.FC<ResultPageProps> = ({ video }) => {
-  const socket = io("http://localhost:5000");
+  const socket = io("http://127.0.0.1:5000");
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [results, setResults] = useState();
 
   useEffect(() => {
     socket.connect();
-    socket.on("connect", () => console.log("Connected to WebSocket server"));
+    socket.on("connect", () => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const fileData = reader.result;
+        socket.emit("file", { fileName: video.name, fileData });
+        console.log("File uploaded", video.name);
+        setIsLoading(true);
+      };
+
+      reader.readAsArrayBuffer(video);
+      console.log("Connected to WebSocket server");
+    });
     socket.on("disconnect", () =>
       console.log("Disconnected from WebSocket server")
     );
@@ -25,17 +37,6 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
       setResults(data);
       socket.disconnect();
     });
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const fileData = reader.result;
-      socket.emit("file", { fileName: video.name, fileData });
-      console.log("File uploaded", video.name);
-      setIsLoading(true);
-    };
-
-    reader.readAsArrayBuffer(video);
 
     return () => {
       socket.disconnect();
