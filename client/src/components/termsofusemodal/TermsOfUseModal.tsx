@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Modal, ModalBody, Row } from "react-bootstrap";
 import styles from "./TermsOfUseModal.module.css";
 import ModalButton from "./modalbutton/ModalButton";
@@ -8,9 +8,14 @@ import ChooseFileButton from "./choosefilebutton/ChooseFileButton";
 interface TermsOfUseModalProps {
   show: boolean;
   hide: Function;
+  onFileChange: Function;
 }
 
-const TermsOfUseModal: React.FC<TermsOfUseModalProps> = ({ show, hide }) => {
+const TermsOfUseModal: React.FC<TermsOfUseModalProps> = ({
+  show,
+  hide,
+  onFileChange,
+}) => {
   const { t } = useTranslation();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -19,8 +24,9 @@ const TermsOfUseModal: React.FC<TermsOfUseModalProps> = ({ show, hide }) => {
   };
 
   const handleUpload = (file: File | null) => {
-    // Send video to backend
-    console.log("Uploading file to backend, " + file?.name);
+    if (file) {
+      onFileChange(file);
+    }
   };
 
   return (
