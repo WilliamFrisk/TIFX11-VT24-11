@@ -29,6 +29,7 @@ class FileUploadEndpoint(Resource):
         
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            # Mookup data?? {cool analysis of the file here}
             return {'message': 'File uploaded successfully', 'filename': filename}, 200
         
         return {'message': 'File type not allowed'}, 400
