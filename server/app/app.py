@@ -34,14 +34,32 @@ def file_upload(ws):
             os.makedirs(save_dir)
 
         # Save the video file to the server
-        with open(os.path.join(save_dir, 'video.mp4'), 'wb') as f:
+        file_path = os.path.join(save_dir, 'video.mp4')
+        with open(file_path, 'wb') as f:
             f.write(file_data)
-        time.sleep(15)
-        mook = {
-            
+
+        # Convert the file data to base64 for transmission
+        with open(file_path, 'rb') as f:
+            file_content_base64 = base64.b64encode(f.read()).decode('utf-8')
+
+        # Prepare additional data
+        additional_data = {
+            'left_knee': '89',
+            'right_knee': '88',
+            'left_elbow': '83',
+            'right_elbow': '86'
         }
-        # Send a success message to the client
-        ws.send('Video file received successfully.')
+
+        # Prepare JSON response with both file content and additional data
+        response_data = {
+            'status': 'success',
+            'message': 'File and additional data received',
+            'file_content': file_content_base64,
+            'additional_data': additional_data
+        }
+
+        # Send JSON response back to the client
+        ws.send(json.dumps(response_data))
     except Exception as e:
         # Send an error message to the client if an exception occurs
         ws.error(str(e))

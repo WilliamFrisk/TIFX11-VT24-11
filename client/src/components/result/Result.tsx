@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
-
-// Configure Axios instance with default origin (adjust as needed)
+import styles from "./Result.module.css";
 
 interface ResultPageProps {
   video: File;
@@ -10,10 +9,11 @@ interface ResultPageProps {
 
 const Result: React.FC<ResultPageProps> = ({ video }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [results, setResults] = useState();
+  const [results, setResults] = useState<any>(null);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://127.0.0.1:5000/fileupload"); // Adjust the URL as needed
+    const socket = new WebSocket("ws://127.0.0.1:5000/fileupload");
 
     socket.onopen = () => {
       setIsLoading(true);
@@ -24,27 +24,85 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
 
     socket.onmessage = (event) => {
       setIsLoading(false);
-      console.log("Message received from server:", event.data);
-      // Handle incoming messages from the server
+      const data = JSON.parse(event.data);
+      console.log("Results:", data);
+      setResults(data);
     };
 
     socket.onerror = (error) => {
       console.error("WebSocket error:", error);
-      // Handle errors
     };
 
     socket.onclose = () => {
       console.log("WebSocket connection closed.");
-      // Handle closed connection
     };
 
     return () => {
-      // Cleanup function to close the WebSocket connection
       socket.close();
     };
-  }, []);
+  }, [video]);
 
-  return <>{isLoading ? <Spinner animation="border" /> : <h1>Results!</h1>}</>;
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  return (
+    <div className={isFullscreen ? styles.fullscreen : styles.Container}>
+      {isLoading ? (
+        <div className={styles.overlay}>
+          <Spinner animation="border" />
+          <p className={styles.overlay_text}>Processing...</p>
+        </div>
+      ) : (
+        <>
+          <div className={styles.resultContainer}>
+            <h1 className={styles.header_text}>{video.name}</h1>
+            <div className={styles.body}>
+              <div className={styles.grid}>
+                <div className={styles.leftSection}>
+                  {results && (
+                    <div className={styles.resultStats}>
+                      <div className={styles.columns}>
+                        <p className={styles.columns_item}>
+                          Angle of right knee: {results.data.right_knee}
+                        </p>
+                        <p className={styles.columns_item}>
+                          Angle of left knee: {results.data.left_knee}
+                        </p>
+                      </div>
+                      <div className={styles.columns}>
+                        <p className={styles.columns_item}>
+                          Angle of right elbow: {results.data.right_elbow}
+                        </p>
+                        <p className={styles.columns_item}>
+                          Angle of left elbow: {results.data.left_elbow}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className={styles.rightSection}>
+                  <div className={styles.videoContainer}>
+                    <video
+                      controls
+                      className={styles.video}
+                      onClick={toggleFullscreen}
+                    >
+                      <source
+                        src={URL.createObjectURL(video)}
+                        type={video.type}
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Result;
