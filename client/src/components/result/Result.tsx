@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import io from "socket.io-client";
+import axios from "axios";
+
+// Configure Axios instance with default origin (adjust as needed)
 
 interface ResultPageProps {
   video: File;
@@ -14,34 +17,29 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
 
   useEffect(() => {
     socket.connect();
-    socket.on("connect", () => {
+    socket.on("connected", () => {
       const reader = new FileReader();
-
-      reader.onload = () => {
+      console.log("connected to server");
+      reader.onload = (data: any) => {
         const fileData = reader.result;
         socket.emit("file", { fileName: video.name, fileData });
         console.log("File uploaded", video.name);
+
         setIsLoading(true);
       };
-
       reader.readAsArrayBuffer(video);
-      console.log("Connected to WebSocket server");
     });
-    socket.on("disconnect", () =>
-      console.log("Disconnected from WebSocket server")
-    );
 
     socket.on("result", (data) => {
       setIsLoading(false);
-      console.log("Received result:", data);
+      console.log("Received result:", data.message);
       setResults(data);
-      socket.disconnect();
     });
 
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [video]);
 
   return <>{isLoading ? <Spinner animation="border" /> : <h1>Results!</h1>}</>;
 };
