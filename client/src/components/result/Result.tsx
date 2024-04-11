@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import io from "socket.io-client";
 import axios from "axios";
 
 // Configure Axios instance with default origin (adjust as needed)
@@ -10,36 +9,40 @@ interface ResultPageProps {
 }
 
 const Result: React.FC<ResultPageProps> = ({ video }) => {
-  const socket = io("http://127.0.0.1:5000");
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [results, setResults] = useState();
 
   useEffect(() => {
-    socket.connect();
-    socket.on("connected", () => {
-      const reader = new FileReader();
-      console.log("connected to server");
-      reader.onload = (data: any) => {
-        const fileData = reader.result;
-        socket.emit("file", { fileName: video.name, fileData });
-        console.log("File uploaded", video.name);
+    const socket = new WebSocket("ws://127.0.0.1:5000/fileupload"); // Adjust the URL as needed
 
-        setIsLoading(true);
-      };
-      reader.readAsArrayBuffer(video);
-    });
+    socket.onopen = () => {
+      setIsLoading(true);
+      console.log("WebSocket connection established.");
+      const blob = new Blob([video], { type: video.type });
+      socket.send(blob);
+    };
 
-    socket.on("result", (data) => {
+    socket.onmessage = (event) => {
       setIsLoading(false);
-      console.log("Received result:", data.message);
-      setResults(data);
-    });
+      console.log("Message received from server:", event.data);
+      // Handle incoming messages from the server
+    };
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+      // Handle errors
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket connection closed.");
+      // Handle closed connection
+    };
 
     return () => {
-      socket.disconnect();
+      // Cleanup function to close the WebSocket connection
+      socket.close();
     };
-  }, [video]);
+  }, []);
 
   return <>{isLoading ? <Spinner animation="border" /> : <h1>Results!</h1>}</>;
 };

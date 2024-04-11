@@ -1,42 +1,50 @@
 import os
 import json
 from flask import Flask, request, jsonify
-from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 import time
+from flask_sock import Sock
 # Consider using flask-limiter for rate limiting
 
 app = Flask(__name__)
-
+sock = Sock(app)
 CORS(app, origins=['*'])
-socketio = SocketIO(app,debug=True,cors_allowed_origins='*')
+
+ALLOWED_EXTENSIONS = {'mp4'} # add allowed file extensions here 
+UPLOAD_DIRECTORY = 'app/temp/'
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @app.route('/home')
 def main():
     return jsonify({"message": "Hello, World!"})
 
-@socketio.on("connect")
-def handle_connect():
-    print("Client connected")
-    # Consider using rate limiting instead of delay
-    time.sleep(10)
-    result()
-    emit("connected", {"message": "Welcome! You are now connected to the server."})
+def ensure_directory(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
-def result():
-    print("Calculating...")
-    # ... your logic to calculate the result ...
-    emit("result", {"message": "Calculation completed."})
-    
-@socketio.on('file')
-def handle_file(data):
-    # Process the uploaded file data (e.g., filename, fileData)
-    print(f"Received file: {data['fileName']}")
-    # ... your logic to handle the file data (save, call calculate) ...
-    socketio.emit('result', processed_data, namespace='/')  # Send processed results to client
+@sock.route('/fileupload')
+def file_upload(ws):
+    try:
+        # Receive the video file data
+        file_data = ws.receive()
+        save_dir = 'uploads'
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
 
-    # Consider returning an acknowledgement to the client
-    # emit('file_received', {'message': 'File received successfully.'})
+        # Save the video file to the server
+        with open(os.path.join(save_dir, 'video.mp4'), 'wb') as f:
+            f.write(file_data)
+        time.sleep(15)
+        mook = {
+            
+        }
+        # Send a success message to the client
+        ws.send('Video file received successfully.')
+    except Exception as e:
+        # Send an error message to the client if an exception occurs
+        ws.error(str(e))
 
-
-if __name__ == '__main__':
-    socketio.run(app, debug=True)
+if __name__ == "__main__":
+    app.run()
