@@ -56,27 +56,57 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
       ) : (
         <>
           <div className={styles.resultContainer}>
-            <h1 className={styles.header_text}>{video.name}</h1>
+            <div className={styles.head}>
+              <h1 className={styles.header_text}>{video.name}</h1>
+            </div>
             <div className={styles.body}>
               <div className={styles.grid}>
                 <div className={styles.leftSection}>
                   {results && (
                     <div className={styles.resultStats}>
                       <div className={styles.columns}>
-                        <p className={styles.columns_item}>
-                          Angle of right knee: {results.data.right_knee}
-                        </p>
-                        <p className={styles.columns_item}>
-                          Angle of left knee: {results.data.left_knee}
-                        </p>
+                        <div
+                          className={`${styles.columns_item} ${styles.firstColumn}`}
+                        >
+                          <span className={styles.infoSpan}>
+                            Angle of right knee:
+                          </span>
+                          <span className={styles.dataSpan}>
+                            {results.data.right_knee}
+                          </span>
+                        </div>
+                        <div
+                          className={`${styles.columns_item} ${styles.secondColumn}`}
+                        >
+                          <span className={styles.infoSpan}>
+                            Angle of left knee:
+                          </span>
+                          <span className={styles.dataSpan}>
+                            {results.data.left_knee}
+                          </span>
+                        </div>
                       </div>
                       <div className={styles.columns}>
-                        <p className={styles.columns_item}>
-                          Angle of right elbow: {results.data.right_elbow}
-                        </p>
-                        <p className={styles.columns_item}>
-                          Angle of left elbow: {results.data.left_elbow}
-                        </p>
+                        <div
+                          className={`${styles.columns_item} ${styles.firstColumn}`}
+                        >
+                          <span className={styles.infoSpan}>
+                            Angle of right elbow:
+                          </span>
+                          <span className={styles.dataSpan}>
+                            {results.data.right_elbow}
+                          </span>
+                        </div>
+                        <div
+                          className={`${styles.columns_item} ${styles.secondColumn}`}
+                        >
+                          <span className={styles.infoSpan}>
+                            Angle of left elbow:
+                          </span>
+                          <span className={styles.dataSpan}>
+                            {results.data.left_elbow}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -95,6 +125,11 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
                       Your browser does not support the video tag.
                     </video>
                   </div>
+                  <p className={styles.video_text}>
+                    Click on the video to view in fullscreen.<br></br> Our model
+                    added keypoints to the video to calculate the angles of the
+                    joints.
+                  </p>
                 </div>
               </div>
             </div>

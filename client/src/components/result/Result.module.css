@@ -34,14 +34,23 @@
   margin-top: 10px; /* Add margin between spinner and text */
 }
 
-.header_text {
-  text-align: left;
-  font-family: "Bai Jamjuree", sans-serif;
-  font-weight: 500;
-}
-
 .body {
   width: 100%;
+}
+.head {
+  align-items: left;
+  width: 100%;
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
+  text-align: left; /* Added */
+}
+
+.header_text {
+  text-align: left;
+  margin: 0 auto;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-weight: 600;
+  font-style: initial;
 }
 
 .grid {
@@ -57,7 +66,9 @@
 }
 
 .leftSection {
-  /* Styles for the left section */
+  border: 3px solid black;
+  border-radius: 15px;
+  width: 100%;
 }
 
 .rightSection {
@@ -69,19 +80,48 @@
 
 .resultStats {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: rows;
+  width: 100%;
 }
 
 .columns {
-  border: 1px solid black;
-  width: 200px !important;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+
+  width: 100%;
 }
 
 .columns_item {
-  margin-bottom: 10px;
+  padding-left: 8px;
+  display: flex;
+  flex-direction: row;
+
+  height: 2rem;
+}
+.infoSpan {
+  width: 200px; /* Adjust the width as needed */
+  display: inline-block; /* Allows setting width */
+  text-align: right; /* Aligns text to the right within the fixed width */
+  margin-right: 5px; /* Adjust as needed */
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+.dataSpan {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.columns_item span {
+  margin-right: 10px; /* Margin between label and value */
+}
+.firstColumn {
+  background-color: rgb(151, 204, 224); /* Color for the first column */
+}
+
+.secondColumn {
+  background-color: rgb(194, 194, 194); /* Color for the second column */
 }
 
 .videoContainer {
@@ -105,4 +145,9 @@
   height: 115%;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+.video_text {
+  font-style: italic;
+  margin-top: 10px;
 }

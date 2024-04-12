@@ -29,6 +29,9 @@ const TermsOfUseModal: React.FC<TermsOfUseModalProps> = ({
     }
   };
 
+  // Determine whether the Upload button should be disabled
+  const isUploadDisabled = !selectedFile;
+
   return (
     <Modal
       show={show}
@@ -54,6 +57,7 @@ const TermsOfUseModal: React.FC<TermsOfUseModalProps> = ({
             <ModalButton
               text={t("terms-of-use.upload-button")}
               onClick={() => handleUpload(selectedFile)}
+              disabled={isUploadDisabled}
             />
             <ModalButton
               text={t("terms-of-use.quit-button")}
