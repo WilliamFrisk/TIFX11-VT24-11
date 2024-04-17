@@ -69,6 +69,7 @@
   border: 3px solid black;
   border-radius: 15px;
   width: 100%;
+  background-color: rgb(178, 190, 194); /* Color for the first column */
 }
 
 .rightSection {
@@ -117,7 +118,10 @@
   margin-right: 10px; /* Margin between label and value */
 }
 .firstColumn {
-  background-color: rgb(151, 204, 224); /* Color for the first column */
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+
+  background-color: rgb(178, 190, 194); /* Color for the first column */
 }
 
 .secondColumn {

@@ -1,68 +1,51 @@
+from flask import Flask,render_template,request
+from flask_socketio import SocketIO, emit
+import subprocess
 import os
-import json
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import time
-from flask_sock import Sock
-# Consider using flask-limiter for rate limiting
 
+MAX_BUFFER_SIZE = 1000 * 1000 * 1000  # 50 MB
 app = Flask(__name__)
-sock = Sock(app)
-CORS(app, origins=['*'])
-
-ALLOWED_EXTENSIONS = {'mp4'} # add allowed file extensions here 
-UPLOAD_DIRECTORY = 'app/temp/'
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+app.config['SECRET_KEY'] = 'secret!'
+app.config['UPLOAD_FOLDER'] = 'uploads'
+socketio = SocketIO(app,debug=True,cors_allowed_origins='*',async_mode='eventlet', max_http_buffer_size=MAX_BUFFER_SIZE)
 
 
-@app.route('/home')
-def main():
-    return jsonify({"message": "Hello, World!"})
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected:', request.sid)
 
-def ensure_directory(directory):
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected:', request.sid)
 
-@sock.route('/fileupload')
-def file_upload(ws):
+@socketio.on("fileupload", namespace='/test')
+def handle_file_upload(data, filename): 
     try:
-        # Receive the video file data
-        file_data = ws.receive()
-        save_dir = 'uploads'
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir)
+        print('..........................................')
 
-        # Save the video file to the server
-        file_path = os.path.join(save_dir, 'video.mp4')
-        with open(file_path, 'wb') as f:
-            f.write(file_data)
-
-        # Convert the file data to base64 for transmission
-        with open(file_path, 'rb') as f:
-            file_content_base64 = base64.b64encode(f.read()).decode('utf-8')
-
-        # Prepare additional data
+        video_file = data
+        filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        with open(filename, 'wb') as f:
+            f.write(video_file)
+        
         additional_data = {
             'left_knee': '89',
-            'right_knee': '88',
-            'left_elbow': '83',
-            'right_elbow': '86'
+            'right_knee': '90'
         }
-
-        # Prepare JSON response with both file content and additional data
-        response_data = {
+        response = {
             'status': 'success',
-            'message': 'File and additional data received',
-            'file_content': file_content_base64,
+            'message': 'File uploaded successfully',
             'additional_data': additional_data
         }
-
-        # Send JSON response back to the client
-        ws.send(json.dumps(response_data))
+        print('File uploaded successfully')
+        emit('result', response)
     except Exception as e:
-        # Send an error message to the client if an exception occurs
-        ws.error(str(e))
+        response = {
+            'status': 'error',
+            'message': str(e)
+        }
+        emit('error', response)
 
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+    socketio.run(app)

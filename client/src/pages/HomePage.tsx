@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
     <Container fluid className="flex-grow-1 m-2" style={{ maxWidth: "97%" }}>
       {file ? (
         <Row className="h-100">
-          <Result video={file} />
+          <Result file={file} />
         </Row>
       ) : (
         <Row className="h-100">

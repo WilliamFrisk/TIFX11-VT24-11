@@ -1,46 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import axios from "axios";
 import styles from "./Result.module.css";
-
+import { io } from "socket.io-client";
 interface ResultPageProps {
-  video: File;
+  file: File;
 }
 
-const Result: React.FC<ResultPageProps> = ({ video }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+const Result: React.FC<ResultPageProps> = ({ file }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [video, setVideo] = useState<File>(file); // [1
   const [results, setResults] = useState<any>(null);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://127.0.0.1:5000/fileupload");
-
-    socket.onopen = () => {
+    const socket = io("ws://127.0.0.1:5000/test");
+    socket.on("connect", () => {
+      console.log(`Connected? ${socket.connected}`);
       setIsLoading(true);
-      console.log("WebSocket connection established.");
-      const blob = new Blob([video], { type: video.type });
-      socket.send(blob);
-    };
 
-    socket.onmessage = (event) => {
+      if (video) {
+        // Check if video prop is available
+        const blob = new Blob([video], { type: video.type }); // Use video.type for mime type;
+        try {
+          console.log("blob", blob);
+          socket.emit("fileupload", blob, video.name);
+        } catch (error) {
+          console.log("error block");
+          console.log("hejh");
+          console.error("Error uploading file:", error);
+        } finally {
+          console.log(video.name);
+          console.log("finally block");
+        }
+      } else {
+        console.error("No video file found");
+      }
+    });
+
+    socket.on("disconnect", () => {
+      console.log(`is Connected? ${socket.connected}`);
       setIsLoading(false);
-      const data = JSON.parse(event.data);
-      console.log("Results:", data);
-      setResults(data);
-    };
-
-    socket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    socket.onclose = () => {
-      console.log("WebSocket connection closed.");
-    };
+    });
+    socket.on("result", (...args) => {
+      console.log(args);
+      setIsLoading(false);
+    });
+    socket.on("error", (...args) => {
+      console.log(args);
+      console.log("Error");
+    });
 
     return () => {
       socket.close();
     };
-  }, [video]);
+  }, []);
 
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
