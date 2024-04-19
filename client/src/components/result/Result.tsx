@@ -11,53 +11,60 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
   const [video, setVideo] = useState<File>(file); // [1
   const [results, setResults] = useState<any>(null);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-
+  const [isSent, setIsSent] = useState<boolean>(false);
   useEffect(() => {
-    const socket = io("ws://127.0.0.1:5000/test");
-    socket.on("connect", () => {
-      console.log(`Connected? ${socket.connected}`);
-      setIsLoading(true);
+    const socket = io("http://localhost:5000");
+    if (file && !isSent) {
+      const chunkSize = 1024 * 1024 * 20; // 100MB
+      let offset = 0;
 
-      if (video) {
-        // Check if video prop is available
-        const blob = new Blob([video], { type: video.type }); // Use video.type for mime type;
-        try {
-          console.log("blob", blob);
-          socket.emit("fileupload", blob, video.name);
-        } catch (error) {
-          console.log("error block");
-          console.log("hejh");
-          console.error("Error uploading file:", error);
-        } finally {
-          console.log(video.name);
-          console.log("finally block");
+      socket.on("connect", () => {
+
+        function readAndSendChunk() {
+          const reader = new FileReader();
+          const blob = file.slice(offset, offset + chunkSize);
+
+          reader.onload = (e) => {
+            if (e.target && e.target.result) {
+              socket.emit(
+                "video_chunk",
+                new Uint8Array(e.target.result as ArrayBuffer)
+              );
+              offset += chunkSize;
+
+              if (offset < file.size) {
+                readAndSendChunk();
+              } else {
+                socket.emit("end_video_transfer");
+              }
+            }
+          };
+
+          reader.readAsArrayBuffer(blob);
         }
-      } else {
-        console.error("No video file found");
-      }
-    });
 
+        readAndSendChunk();
+      });
+    };
     socket.on("disconnect", () => {
       console.log(`is Connected? ${socket.connected}`);
       setIsLoading(false);
     });
-    socket.on("result", (...args) => {
+    socket.on("video_saved", (...args) => {
       console.log(args);
       setIsLoading(false);
+      socket.disconnect();
+      setIsSent(true);
     });
     socket.on("error", (...args) => {
       console.log(args);
-      console.log("Error");
+      console.log("Errsor");
     });
 
     return () => {
       socket.close();
     };
   }, []);
-
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
-  };
 
   return (
     <div className={isFullscreen ? styles.fullscreen : styles.Container}>
@@ -129,7 +136,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                     <video
                       controls
                       className={styles.video}
-                      onClick={toggleFullscreen}
+
                     >
                       <source
                         src={URL.createObjectURL(video)}

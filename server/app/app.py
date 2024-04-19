@@ -18,34 +18,16 @@ def handle_connect():
 def handle_disconnect():
     print('Client disconnected:', request.sid)
 
-@socketio.on("fileupload", namespace='/test')
-def handle_file_upload(data, filename): 
-    try:
-        print('..........................................')
+@socketio.on('video_chunk')
+def handle_video_chunk(data):
+    print('Received video chunk')
+    with open('received_video5.mp4', 'ab') as video_file:
+        video_file.write(data)
 
-        video_file = data
-        filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-        with open(filename, 'wb') as f:
-            f.write(video_file)
-        
-        additional_data = {
-            'left_knee': '89',
-            'right_knee': '90'
-        }
-        response = {
-            'status': 'success',
-            'message': 'File uploaded successfully',
-            'additional_data': additional_data
-        }
-        print('File uploaded successfully')
-        emit('result', response)
-    except Exception as e:
-        response = {
-            'status': 'error',
-            'message': str(e)
-        }
-        emit('error', response)
+@socketio.on('end_video_transfer')
+def handle_end_video_transfer():
+    print('Video transfer complete')
+    emit('video_saved', 'Video has been saved to server.')
 
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, debug=True)
