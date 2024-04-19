@@ -19,15 +19,27 @@ def handle_disconnect():
     print('Client disconnected:', request.sid)
 
 @socketio.on('video_chunk')
-def handle_video_chunk(data):
+def handle_video_chunk(data, filename):
     print('Received video chunk')
-    with open('received_video5.mp4', 'ab') as video_file:
+    with open(filename, 'ab') as video_file:
         video_file.write(data)
 
 @socketio.on('end_video_transfer')
-def handle_end_video_transfer():
-    print('Video transfer complete')
-    emit('video_saved', 'Video has been saved to server.')
+def handle_end_video_transfer(filename):
+    sid = request.sid
+    if os.path.exists(filename):
+        with open('output.mp4', 'rb') as video_file:
+            video_data = video_file.read()
+            additional_data = {
+            'left_knee': '89',
+            'right_knee': '88',
+            'left_elbow': '83',
+            'right_elbow': '86'
+            }
+            payload = {'video_data': video_data, 'additional_data': additional_data}
+            emit('video_saved', payload, room=sid)
+    else:
+        emit('file_not_found', filename, room=sid)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

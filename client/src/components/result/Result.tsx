@@ -15,11 +15,10 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
   useEffect(() => {
     const socket = io("http://localhost:5000");
     if (file && !isSent) {
-      const chunkSize = 1024 * 1024 * 20; // 100MB
+      const chunkSize = 1024 * 1024 * 50; // 100MB
       let offset = 0;
 
       socket.on("connect", () => {
-
         function readAndSendChunk() {
           const reader = new FileReader();
           const blob = file.slice(offset, offset + chunkSize);
@@ -28,14 +27,15 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
             if (e.target && e.target.result) {
               socket.emit(
                 "video_chunk",
-                new Uint8Array(e.target.result as ArrayBuffer)
+                new Uint8Array(e.target.result as ArrayBuffer),
+                file.name
               );
               offset += chunkSize;
 
               if (offset < file.size) {
                 readAndSendChunk();
               } else {
-                socket.emit("end_video_transfer");
+                socket.emit("end_video_transfer", file.name);
               }
             }
           };
@@ -45,13 +45,19 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
 
         readAndSendChunk();
       });
-    };
+    }
     socket.on("disconnect", () => {
       console.log(`is Connected? ${socket.connected}`);
       setIsLoading(false);
     });
     socket.on("video_saved", (...args) => {
-      console.log(args);
+      console.log(args[0].additional_data);
+      const file = new File([args[0].video_data], "result.mp4", {
+        type: "video/mp4",
+      });
+      setVideo(file);
+      setResults(args[0].additional_data);
+
       setIsLoading(false);
       socket.disconnect();
       setIsSent(true);
@@ -92,7 +98,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             Angle of right knee:
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.data.right_knee}
+                            {results.right_knee}
                           </span>
                         </div>
                         <div
@@ -102,7 +108,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             Angle of left knee:
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.data.left_knee}
+                            {results.left_knee}
                           </span>
                         </div>
                       </div>
@@ -114,7 +120,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             Angle of right elbow:
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.data.right_elbow}
+                            {results.right_elbow}
                           </span>
                         </div>
                         <div
@@ -124,7 +130,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             Angle of left elbow:
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.data.left_elbow}
+                            {results.left_elbow}
                           </span>
                         </div>
                       </div>
@@ -133,11 +139,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                 </div>
                 <div className={styles.rightSection}>
                   <div className={styles.videoContainer}>
-                    <video
-                      controls
-                      className={styles.video}
-
-                    >
+                    <video controls className={styles.video}>
                       <source
                         src={URL.createObjectURL(video)}
                         type={video.type}
