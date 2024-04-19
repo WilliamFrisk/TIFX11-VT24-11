@@ -1,50 +1,76 @@
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import axios from "axios";
 import styles from "./Result.module.css";
-
+import { io } from "socket.io-client";
 interface ResultPageProps {
-  video: File;
+  file: File;
 }
 
-const Result: React.FC<ResultPageProps> = ({ video }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+const Result: React.FC<ResultPageProps> = ({ file }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [video, setVideo] = useState<File>(file); // [1
   const [results, setResults] = useState<any>(null);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-
+  const [isSent, setIsSent] = useState<boolean>(false);
   useEffect(() => {
-    const socket = new WebSocket("ws://127.0.0.1:5000/fileupload");
+    const socket = io("http://localhost:5000");
+    if (file && !isSent) {
+      const chunkSize = 1024 * 1024 * 50; // 100MB
+      let offset = 0;
 
-    socket.onopen = () => {
-      setIsLoading(true);
-      console.log("WebSocket connection established.");
-      const blob = new Blob([video], { type: video.type });
-      socket.send(blob);
-    };
+      socket.on("connect", () => {
+        function readAndSendChunk() {
+          const reader = new FileReader();
+          const blob = file.slice(offset, offset + chunkSize);
 
-    socket.onmessage = (event) => {
+          reader.onload = (e) => {
+            if (e.target && e.target.result) {
+              socket.emit(
+                "video_chunk",
+                new Uint8Array(e.target.result as ArrayBuffer),
+                file.name
+              );
+              offset += chunkSize;
+
+              if (offset < file.size) {
+                readAndSendChunk();
+              } else {
+                socket.emit("end_video_transfer", file.name);
+              }
+            }
+          };
+
+          reader.readAsArrayBuffer(blob);
+        }
+
+        readAndSendChunk();
+      });
+    }
+    socket.on("disconnect", () => {
+      console.log(`is Connected? ${socket.connected}`);
       setIsLoading(false);
-      const data = JSON.parse(event.data);
-      console.log("Results:", data);
-      setResults(data);
-    };
+    });
+    socket.on("video_saved", (...args) => {
+      console.log(args[0].additional_data);
+      const file = new File([args[0].video_data], "result.mp4", {
+        type: "video/mp4",
+      });
+      setVideo(file);
+      setResults(args[0].additional_data);
 
-    socket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    socket.onclose = () => {
-      console.log("WebSocket connection closed.");
-    };
+      setIsLoading(false);
+      socket.disconnect();
+      setIsSent(true);
+    });
+    socket.on("error", (...args) => {
+      console.log(args);
+      console.log("Errsor");
+    });
 
     return () => {
       socket.close();
     };
-  }, [video]);
-
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
-  };
+  }, []);
 
   return (
     <div className={isFullscreen ? styles.fullscreen : styles.Container}>
@@ -72,7 +98,7 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
                             Angle of right knee:
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.data.right_knee}
+                            {results.right_knee}
                           </span>
                         </div>
                         <div
@@ -82,7 +108,7 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
                             Angle of left knee:
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.data.left_knee}
+                            {results.left_knee}
                           </span>
                         </div>
                       </div>
@@ -94,7 +120,7 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
                             Angle of right elbow:
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.data.right_elbow}
+                            {results.right_elbow}
                           </span>
                         </div>
                         <div
@@ -104,7 +130,7 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
                             Angle of left elbow:
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.data.left_elbow}
+                            {results.left_elbow}
                           </span>
                         </div>
                       </div>
@@ -113,11 +139,7 @@ const Result: React.FC<ResultPageProps> = ({ video }) => {
                 </div>
                 <div className={styles.rightSection}>
                   <div className={styles.videoContainer}>
-                    <video
-                      controls
-                      className={styles.video}
-                      onClick={toggleFullscreen}
-                    >
+                    <video controls className={styles.video}>
                       <source
                         src={URL.createObjectURL(video)}
                         type={video.type}

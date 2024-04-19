@@ -1,68 +1,45 @@
+from flask import Flask,render_template,request
+from flask_socketio import SocketIO, emit
+import subprocess
 import os
-import json
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import time
-from flask_sock import Sock
-# Consider using flask-limiter for rate limiting
 
+MAX_BUFFER_SIZE = 1000 * 1000 * 1000  # 50 MB
 app = Flask(__name__)
-sock = Sock(app)
-CORS(app, origins=['*'])
-
-ALLOWED_EXTENSIONS = {'mp4'} # add allowed file extensions here 
-UPLOAD_DIRECTORY = 'app/temp/'
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+app.config['SECRET_KEY'] = 'secret!'
+app.config['UPLOAD_FOLDER'] = 'uploads'
+socketio = SocketIO(app,debug=True,cors_allowed_origins='*',async_mode='eventlet', max_http_buffer_size=MAX_BUFFER_SIZE)
 
 
-@app.route('/home')
-def main():
-    return jsonify({"message": "Hello, World!"})
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected:', request.sid)
 
-def ensure_directory(directory):
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected:', request.sid)
 
-@sock.route('/fileupload')
-def file_upload(ws):
-    try:
-        # Receive the video file data
-        file_data = ws.receive()
-        save_dir = 'uploads'
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir)
+@socketio.on('video_chunk')
+def handle_video_chunk(data, filename):
+    print('Received video chunk')
+    with open(filename, 'ab') as video_file:
+        video_file.write(data)
 
-        # Save the video file to the server
-        file_path = os.path.join(save_dir, 'video.mp4')
-        with open(file_path, 'wb') as f:
-            f.write(file_data)
-
-        # Convert the file data to base64 for transmission
-        with open(file_path, 'rb') as f:
-            file_content_base64 = base64.b64encode(f.read()).decode('utf-8')
-
-        # Prepare additional data
-        additional_data = {
+@socketio.on('end_video_transfer')
+def handle_end_video_transfer(filename):
+    sid = request.sid
+    if os.path.exists(filename):
+        with open('output.mp4', 'rb') as video_file:
+            video_data = video_file.read()
+            additional_data = {
             'left_knee': '89',
             'right_knee': '88',
             'left_elbow': '83',
             'right_elbow': '86'
-        }
+            }
+            payload = {'video_data': video_data, 'additional_data': additional_data}
+            emit('video_saved', payload, room=sid)
+    else:
+        emit('file_not_found', filename, room=sid)
 
-        # Prepare JSON response with both file content and additional data
-        response_data = {
-            'status': 'success',
-            'message': 'File and additional data received',
-            'file_content': file_content_base64,
-            'additional_data': additional_data
-        }
-
-        # Send JSON response back to the client
-        ws.send(json.dumps(response_data))
-    except Exception as e:
-        # Send an error message to the client if an exception occurs
-        ws.error(str(e))
-
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+    socketio.run(app, debug=True)
