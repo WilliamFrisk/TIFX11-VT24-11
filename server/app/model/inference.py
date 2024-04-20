@@ -56,7 +56,7 @@ def calculate_angles_from_inference_results(results: list):
 def standard_motionbert_inference(video):
     inferencer = MMPoseInferencer(pose3d='human3d', device='cpu')
 
-    result_generator = inferencer(video, vis_out_dir='test_results')
+    result_generator = inferencer(video, vis_out_dir='results', show=False)
     return calculate_angles_from_inference_results([result for result in result_generator])
 
 
@@ -66,13 +66,13 @@ def custom_rtmpose_motionbert_inference(video):
                                   pose3d='human3d',
                                   device='cpu')
 
-    result_generator = inferencer(video, vis_out_dir='test_results')
+    result_generator = inferencer(video, vis_out_dir='results', show=False)
     return calculate_angles_from_inference_results([result for result in result_generator])
 
 
 def infere(video):
-    #custom_rtmpose_motionbert_inference(video)
-    standard_motionbert_inference(video)
+    #return custom_rtmpose_motionbert_inference(video)
+    return standard_motionbert_inference(video)
 
 
 if __name__ == "__main__":
