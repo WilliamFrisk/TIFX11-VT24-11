@@ -1,4 +1,6 @@
 /.venv
 
+.DS_Store
+
 *.pth
 *.mp4

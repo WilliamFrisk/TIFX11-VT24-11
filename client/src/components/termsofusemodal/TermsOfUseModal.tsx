@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, Modal, ModalBody, Row } from "react-bootstrap";
 import styles from "./TermsOfUseModal.module.css";
 import ModalButton from "./modalbutton/ModalButton";

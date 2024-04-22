@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import styles from "./Result.module.css";
 import { io } from "socket.io-client";
+
 interface ResultPageProps {
   file: File;
 }
 
 const Result: React.FC<ResultPageProps> = ({ file }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [video, setVideo] = useState<File>(file); // [1
+  const [video, setVideo] = useState<File>(new File([], "")); // [1
   const [results, setResults] = useState<any>(null);
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  const [isSent, setIsSent] = useState<boolean>(false);
+  const isSent = useRef(false);
+  const isFullscreen = false;
+
   useEffect(() => {
-    const socket = io("http://localhost:5000");
-    if (file && !isSent) {
-      const chunkSize = 1024 * 1024 * 50; // 100MB
+    if (file && !isSent.current) {
+      const socket = io("http://127.0.0.1:5000");
+      const chunkSize = 1024 * 1024 * 50; // 50 MB
       let offset = 0;
 
       socket.on("connect", () => {
@@ -45,32 +47,34 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
 
         readAndSendChunk();
       });
-    }
-    socket.on("disconnect", () => {
-      console.log(`is Connected? ${socket.connected}`);
-      setIsLoading(false);
-    });
-    socket.on("video_saved", (...args) => {
-      console.log(args[0].additional_data);
-      const file = new File([args[0].video_data], "result.mp4", {
-        type: "video/mp4",
+
+      socket.on("disconnect", () => {
+        console.log(`is Connected? ${socket.connected}`);
+        setIsLoading(false);
       });
-      setVideo(file);
-      setResults(args[0].additional_data);
 
-      setIsLoading(false);
-      socket.disconnect();
-      setIsSent(true);
-    });
-    socket.on("error", (...args) => {
-      console.log(args);
-      console.log("Errsor");
-    });
+      socket.on("video_saved", (...args) => {
+        const file = new File([args[0].video_data], "result.mp4", {
+          type: "video/mp4",
+        });
+        setVideo(file);
+        setResults(args[0].additional_data);
 
-    return () => {
-      socket.close();
-    };
-  }, []);
+        setIsLoading(false);
+        isSent.current = true;
+        socket.disconnect();
+      });
+
+      socket.on("error", (...args) => {
+        console.log(args);
+        console.log("Error");
+      });
+
+      return () => {
+        socket.close();
+      };
+    }
+  }, [file]);
 
   return (
     <div className={isFullscreen ? styles.fullscreen : styles.Container}>
@@ -148,9 +152,9 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                     </video>
                   </div>
                   <p className={styles.video_text}>
-                    Click on the video to view in fullscreen.<br></br> Our model
-                    added keypoints to the video to calculate the angles of the
-                    joints.
+                    Click on the video to view in fullscreen.
+                    <br /> Our model added keypoints to the video to calculate
+                    the angles of the joints.
                   </p>
                 </div>
               </div>
