@@ -1,0 +1,37 @@
+{
+  "sideMenu": {
+    "exit": "Close menu",
+    "home": "Home",
+    "contact-us": "Contact us",
+    "about-us": "About us",
+    "code": "Code"
+  },
+  "header-logo": "RUNNING GAIT ANALYSIS",
+  "footer": {
+    "contact-us": "Contact",
+    "about-us-title": "About us",
+    "about-us-body": "We are a group of six students at Chalmers University of Technology. This website was made as a part of our bachelor's thesis to allow anyone to use our machine learning model.",
+    "code": "Code",
+    "mail": "Email:"
+  },
+  "about-us": {
+    "about-us-title": "About us",
+    "about-us-body": "We are a group of six students at Chalmers University of Technology. This website was made as a part of our bachelor's thesis to allow anyone to use our machine learning model.",
+    "code": "Code",
+    "contact-us": "Contact us",
+    "mail": "Email: ",
+    "about-our-model": "About our model",
+    "about-our-model-body": "Our model is a convolutional neural network that takes in a video of a person running and outputs a prediction of the person's running style. The model was trained on a dataset of 1000 videos of people running, and it has an accuracy of 90% on the test set."
+  },
+  "upload-button": "UPLOAD AN MP4-FILE",
+  "terms-of-use": {
+    "title": "TERMS OF USE",
+    "first-line": "This model does not aim to give medical advice, consult with a doctor or other specialist before adjusting your running gait",
+    "second-line": "When analysing your data the data is locally saved and then deleted, you can pull back your data anytime by pressing quit",
+    "third-line": "The model has best results when only one person is in frame and when at least 5 running gaits are included",
+    "fourth-line": "By using the model I agree with these terms",
+    "choose-button": "CHOOSE FILE",
+    "upload-button": "UPLOAD",
+    "quit-button": "QUIT"
+  }
+}

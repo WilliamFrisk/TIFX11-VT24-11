@@ -1,0 +1,157 @@
+.resultContainer {
+  width: 90%;
+  border: 3px solid black;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(217, 217, 217);
+  margin: 0 auto; /* Add this line to center horizontally */
+  font-family: "Bai Jamjuree", sans-serif;
+  font-weight: 500;
+  height: 75vh; /* Set the height of the container */
+  padding: 15px;
+}
+.overlay {
+  display: flex;
+  flex-direction: column; /* Display spinner and text in a column */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.spinner {
+  width: 100px; /* Set the width of the spinner */
+  height: 100px; /* Set the height of the spinner */
+}
+
+.overlay_text {
+  margin-top: 10px; /* Add margin between spinner and text */
+}
+
+.body {
+  width: 100%;
+}
+.head {
+  align-items: left;
+  width: 100%;
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
+  text-align: left; /* Added */
+}
+
+.header_text {
+  text-align: left;
+  margin: 0 auto;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-weight: 600;
+  font-style: initial;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Initially set to one column */
+  gap: 20px; /* Gap between grid items */
+}
+@media screen and (min-width: 768px) {
+  /* Adjust the grid layout for screens wider than 768px */
+  .grid {
+    grid-template-columns: 1fr 1fr !important; /* 2 columns */
+  }
+}
+
+.leftSection {
+  border: 3px solid black;
+  border-radius: 15px;
+  width: 100%;
+  background-color: rgb(178, 190, 194); /* Color for the first column */
+}
+
+.rightSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
+.resultStats {
+  display: flex;
+  flex-direction: rows;
+  width: 100%;
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  width: 100%;
+}
+
+.columns_item {
+  padding-left: 8px;
+  display: flex;
+  flex-direction: row;
+
+  height: 2rem;
+}
+.infoSpan {
+  width: 200px; /* Adjust the width as needed */
+  display: inline-block; /* Allows setting width */
+  text-align: right; /* Aligns text to the right within the fixed width */
+  margin-right: 5px; /* Adjust as needed */
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+.dataSpan {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.columns_item span {
+  margin-right: 10px; /* Margin between label and value */
+}
+.firstColumn {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+
+  background-color: rgb(178, 190, 194); /* Color for the first column */
+}
+
+.secondColumn {
+  background-color: rgb(194, 194, 194); /* Color for the second column */
+}
+
+.videoContainer {
+  position: relative;
+  border: 4px solid black;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px; /* Set the maximum width of the video container */
+}
+
+.video {
+  width: 100%; /* Set the initial width of the video */
+  height: auto; /* Maintain the aspect ratio */
+}
+
+.fullscreen {
+  position: fixed;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: 115%;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.video_text {
+  font-style: italic;
+  margin-top: 10px;
+}

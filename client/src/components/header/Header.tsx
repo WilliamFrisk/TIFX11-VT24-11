@@ -2,15 +2,26 @@ import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import SideMenu from "../offcanvas/SideMenu";
-
+import { Image } from "react-bootstrap";
 import styles from "./Header.module.css";
 import swedenFlag from "../../assets/flags/sweden-flag-icon.svg";
+import ukFlag from "../../assets/flags/united-kingdom-flag-icon.svg";
+import { useTranslation } from "react-i18next";
 
+/**
+ * @author Isac Hansson
+ */
 const Header: React.FC = () => {
   const [modalShow, setModalShow] = useState(false);
-
+  const { t, i18n } = useTranslation();
   const handleHideModal = () => {
     setModalShow(false);
+  };
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "en" ? "se" : "en");
+  };
+  const isEnglish = () => {
+    return i18n.language === "en";
   };
   return (
     <Navbar collapseOnSelect expand="lg" className={`${styles.backgroundBlue}`}>
@@ -25,13 +36,23 @@ const Header: React.FC = () => {
 
         <SideMenu show={modalShow} onHide={handleHideModal} />
       </>
-      <h1 className={`${styles.logoText}`}>RUNNING GAIT ANALYSIS</h1>
+      <h1 className={`${styles.logoText}`}>{t("header-logo")}</h1>
 
-      <img
-        src={swedenFlag}
-        alt="Sweden flag"
-        className={`${styles.flagIcon}`}
-      />
+      {isEnglish() ? (
+        <Image
+          src={swedenFlag}
+          alt="Sweden flag"
+          className={styles.flagIcon}
+          onClick={toggleLanguage}
+        />
+      ) : (
+        <Image
+          src={ukFlag}
+          alt="Uk flag"
+          className={styles.flagIcon}
+          onClick={toggleLanguage}
+        />
+      )}
     </Navbar>
   );
 };
