@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import styles from "./Result.module.css";
 import { io } from "socket.io-client";
@@ -11,11 +11,12 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [video, setVideo] = useState<File>(new File([], "")); // [1
   const [results, setResults] = useState<any>(null);
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  const [isSent, setIsSent] = useState<boolean>(false);
+  const isSent = useRef(false);
+  const isFullscreen = false;
+
   useEffect(() => {
-    const socket = io("http://127.0.0.1:5000");
-    if (file && !isSent) {
+    if (file && !isSent.current) {
+      const socket = io("http://127.0.0.1:5000");
       const chunkSize = 1024 * 1024 * 50; // 50 MB
       let offset = 0;
 
@@ -46,31 +47,34 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
 
         readAndSendChunk();
       });
-    }
-    socket.on("disconnect", () => {
-      console.log(`is Connected? ${socket.connected}`);
-      setIsLoading(false);
-    });
-    socket.on("video_saved", (...args) => {
-      const file = new File([args[0].video_data], "result.mp4", {
-        type: "video/mp4",
+
+      socket.on("disconnect", () => {
+        console.log(`is Connected? ${socket.connected}`);
+        setIsLoading(false);
       });
-      setVideo(file);
-      setResults(args[0].additional_data);
 
-      setIsLoading(false);
-      socket.disconnect();
-      setIsSent(true);
-    });
-    socket.on("error", (...args) => {
-      console.log(args);
-      console.log("Error");
-    });
+      socket.on("video_saved", (...args) => {
+        const file = new File([args[0].video_data], "result.mp4", {
+          type: "video/mp4",
+        });
+        setVideo(file);
+        setResults(args[0].additional_data);
 
-    return () => {
-      socket.close();
-    };
-  }, []);
+        setIsLoading(false);
+        isSent.current = true;
+        socket.disconnect();
+      });
+
+      socket.on("error", (...args) => {
+        console.log(args);
+        console.log("Error");
+      });
+
+      return () => {
+        socket.close();
+      };
+    }
+  }, [video]);
 
   return (
     <div className={isFullscreen ? styles.fullscreen : styles.Container}>

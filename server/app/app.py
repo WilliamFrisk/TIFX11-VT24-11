@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask, request
 from flask_socketio import SocketIO, emit
 from model.inference import infere
 import os
@@ -10,7 +10,7 @@ no_inference = False
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['UPLOAD_FOLDER'] = 'uploads'
-socketio = SocketIO(app, debug=True, cors_allowed_origins="*", max_http_buffer_size=MAX_BUFFER_SIZE)
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000", max_http_buffer_size=MAX_BUFFER_SIZE)
 
 
 @socketio.on('connect')
@@ -24,7 +24,8 @@ def handle_disconnect():
 @socketio.on('video_chunk')
 def handle_video_chunk(data, filename):
     print('Received video chunk')
-    with open(filename, 'ab') as video_file:
+    local_filename = filename.replace('.mp4', '') + request.sid + '.mp4'
+    with open(local_filename, 'ab') as video_file:
         video_file.write(data)
 
 @socketio.on('end_video_transfer')
@@ -33,7 +34,9 @@ def handle_end_video_transfer(filename):
 
     print('Video transfer complete')
     sid = request.sid
-    if os.path.exists(filename):
+    local_filename = filename.replace('.mp4', '') + request.sid + '.mp4'
+    print(local_filename)
+    if os.path.exists(local_filename):
         try: 
             if no_inference:
                 additional_data = {
@@ -43,16 +46,16 @@ def handle_end_video_transfer(filename):
                 'right_elbow': '86'
                 }
             else: 
-                additional_data = infere(filename)
+                additional_data = infere(local_filename)
 
-            with open('results/' + filename, 'rb') as video_file:
+            with open('results/' + local_filename, 'rb') as video_file:
                 video_data = video_file.read()
                 
                 payload = {'video_data': video_data, 'additional_data': additional_data}
                 print('Sending results')
                 emit('video_saved', payload, room=sid)
         finally:
-            os.remove(filename)
+            os.remove(local_filename)
     else:
         emit('file_not_found', filename, room=sid)
 
