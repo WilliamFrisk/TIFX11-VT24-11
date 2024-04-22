@@ -74,7 +74,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
         socket.close();
       };
     }
-  }, [video]);
+  }, [file]);
 
   return (
     <div className={isFullscreen ? styles.fullscreen : styles.Container}>
