@@ -103,7 +103,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             {t("results.right_knee")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.right_knee}
+                            {results.right_knee + "°"}
                           </span>
                         </div>
                         <div
@@ -113,7 +113,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             {t("results.left_knee")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.left_knee}
+                            {results.left_knee + "°"}
                           </span>
                         </div>
 
@@ -124,7 +124,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             {t("results.right_hip")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.right_hip}
+                            {results.right_hip + "°"}
                           </span>
                         </div>
                         <div
@@ -134,7 +134,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             {t("results.left_hip")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.left_hip}
+                            {results.left_hip + "°"}
                           </span>
                         </div>
 
@@ -145,7 +145,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             {t("results.right_elbow")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.right_elbow}
+                            {results.right_elbow + "°"}
                           </span>
                         </div>
                         <div
@@ -155,7 +155,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                             {t("results.left_elbow")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.left_elbow}
+                            {results.left_elbow + "°"}
                           </span>
                         </div>
                       </div>
