@@ -40,6 +40,9 @@
     "right_hip": "Genomsnittlig vinkel för höger höft:",
     "left_hip": "Genomsnittlig vinkel för vänster höft:",
     "right_elbow": "Genomsnittlig vinkel för höger armbåge:",
-    "left_elbow": "Genomsnittlig vinkel för vänster armbåge:"
+    "left_elbow": "Genomsnittlig vinkel för vänster armbåge:",
+    "click": "Klicka på videon för att se den i helskärm.",
+    "added_keypoints": "Modellen lade till nyckelpunkter i videon för att beräkna ledernas vinklar.",
+    "process": "Din video bearbetas, vänligen vänta..."
   }
 }

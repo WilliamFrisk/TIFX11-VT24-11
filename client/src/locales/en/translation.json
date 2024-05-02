@@ -40,6 +40,9 @@
     "right_hip": "Mean angle of right hip:",
     "left_hip": "Mean angle of left hip:",
     "right_elbow": "Mean angle of right elbow:",
-    "left_elbow": "Mean angle of left elbow:"
+    "left_elbow": "Mean angle of left elbow:",
+    "click": "Click on the video to view in fullscreen.",
+    "added_keypoints": "The model added keypoints to the video to calculate joint angles.",
+    "process": "The model is processing the video, this may take a while..."
   }
 }

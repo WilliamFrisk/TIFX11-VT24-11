@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Container, Image } from "react-bootstrap";
 import UploadButton from "../components/uploadbutton/UploadButton";
 import TermsOfUseModal from "../components/termsofusemodal/TermsOfUseModal";
-import picture from "../assets/example-result.png";
+import picture from "../assets/example-result2.jpg";
 import Result from "../components/result/Result";
 
 const HomePage: React.FC = () => {

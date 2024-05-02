@@ -82,7 +82,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
       {isLoading ? (
         <div className={styles.overlay}>
           <Spinner animation="border" />
-          <p className={styles.overlay_text}>Processing...</p>
+          <p className={styles.overlay_text}>{t(results.process)}</p>
         </div>
       ) : (
         <>
@@ -176,9 +176,8 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
               </div>
             </div>
             <p className={styles.video_text}>
-              Click on the video to view in fullscreen.
-              <br /> Our model added keypoints to the video to calculate the
-              angles of the joints.
+              {t("results.click")}
+              <br /> {t("results.added_keypoints")}
             </p>
           </div>
         </>
