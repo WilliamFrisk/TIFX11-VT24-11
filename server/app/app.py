@@ -30,8 +30,8 @@ def handle_video_chunk(data, filename):
 
 @socketio.on('end_video_transfer')
 def handle_end_video_transfer(filename):
-    global no_inference
-
+    print('End video transfer')
+    global no_inference 
     print('Video transfer complete')
     sid = request.sid
     local_filename = filename.replace('.mp4', '') + request.sid + '.mp4'
@@ -39,16 +39,19 @@ def handle_end_video_transfer(filename):
     if os.path.exists(local_filename):
         try: 
             if no_inference:
+                print('No inference')
                 additional_data = {
-                'left_knee': '89',
-                'right_knee': '88',
-                'left_elbow': '83',
-                'right_elbow': '86'
-                }
+                    "left_knee": 2,
+                    'right_knee': 3.3,
+                    'left_elbow': 2.10,
+                    'right_elbow': 1,
+                    'left_hip': 23,                   
+                    'right_hip': 93.46
+                    }
             else: 
                 additional_data = infere(local_filename)
 
-            with open('results/' + local_filename, 'rb') as video_file:
+            with open( local_filename, 'rb') as video_file:
                 video_data = video_file.read()
                 
                 payload = {'video_data': video_data, 'additional_data': additional_data}

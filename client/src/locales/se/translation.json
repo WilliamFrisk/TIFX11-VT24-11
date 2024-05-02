@@ -33,5 +33,13 @@
     "choose-button": "VÄLJ FIL",
     "upload-button": "LADDA UPP",
     "quit-button": "AVSLUTA"
+  },
+  "results": {
+    "right_knee": "Genomsnittlig vinkel för höger knä:",
+    "left_knee": "Genomsnittlig vinkel för vänster knä:",
+    "right_hip": "Genomsnittlig vinkel för höger höft:",
+    "left_hip": "Genomsnittlig vinkel för vänster höft:",
+    "right_elbow": "Genomsnittlig vinkel för höger armbåge:",
+    "left_elbow": "Genomsnittlig vinkel för vänster armbåge:"
   }
 }

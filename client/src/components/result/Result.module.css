@@ -64,12 +64,33 @@
     grid-template-columns: 1fr 1fr !important; /* 2 columns */
   }
 }
+@media screen and (max-width: 768px) {
+  /* Adjust the grid layout for screens wider than 1024px */
+  .grid {
+    grid-template-columns: 1fr !important; /* 1 column */
+  }
+  .rightSection {
+    margin-top: -40px !important;
+    max-width: 400px;
+  }
+  .infoSpan {
+    font-size: 0.8rem !important;
+    margin-top: 15px !important;
+  }
+  .resultContainer {
+    height: 900px;
+  }
+  .columns_item {
+    height: 3.3rem !important;
+  }
+}
 
 .leftSection {
   border: 3px solid black;
   border-radius: 15px;
   width: 100%;
   background-color: rgb(178, 190, 194); /* Color for the first column */
+  height: 20.5rem !important; /* Set the height of the left section */
 }
 
 .rightSection {
@@ -77,6 +98,8 @@
   flex-direction: column;
   justify-content: center; /* Center content vertically */
   align-items: center; /* Center content horizontally */
+  height: 20.5rem !important;
+  width: 100%;
 }
 
 .resultStats {
@@ -89,7 +112,6 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-
   width: 100%;
 }
 
@@ -98,20 +120,20 @@
   display: flex;
   flex-direction: row;
 
-  height: 2rem;
+  height: 3.2rem;
 }
 .infoSpan {
-  width: 200px; /* Adjust the width as needed */
+  width: 100%; /* Adjust the width as needed */
   display: inline-block; /* Allows setting width */
-  text-align: right; /* Aligns text to the right within the fixed width */
-  margin-right: 5px; /* Adjust as needed */
+  text-align: left; /* Aligns text to the right within the fixed width */ /* Adjust as needed */
   font-weight: 600;
   font-size: 1.2rem;
+  margin-top: 10px;
 }
 .dataSpan {
   font-weight: 600;
   font-size: 1.2rem;
-  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .columns_item span {
@@ -132,8 +154,7 @@
   position: relative;
   border: 4px solid black;
   border-radius: 10px;
-  width: 100%;
-  max-width: 800px; /* Set the maximum width of the video container */
+  max-width: 580px !important;
 }
 
 .video {
