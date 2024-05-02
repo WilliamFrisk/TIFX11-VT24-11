@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import styles from "./Result.module.css";
 import { io } from "socket.io-client";
-
+import { useTranslation } from "react-i18next";
 interface ResultPageProps {
   file: File;
 }
@@ -13,7 +13,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
   const [results, setResults] = useState<any>(null);
   const isSent = useRef(false);
   const isFullscreen = false;
-
+  const { t } = useTranslation();
   useEffect(() => {
     if (file && !isSent.current) {
       const socket = io("http://127.0.0.1:5000");
@@ -37,6 +37,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
               if (offset < file.size) {
                 readAndSendChunk();
               } else {
+                console.log("End of file reached");
                 socket.emit("end_video_transfer", file.name);
               }
             }
@@ -99,42 +100,62 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                           className={`${styles.columns_item} ${styles.firstColumn}`}
                         >
                           <span className={styles.infoSpan}>
-                            Angle of right knee:
+                            {t("results.right_knee")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.right_knee}
+                            {results.right_knee + "°"}
                           </span>
                         </div>
                         <div
                           className={`${styles.columns_item} ${styles.secondColumn}`}
                         >
                           <span className={styles.infoSpan}>
-                            Angle of left knee:
+                            {t("results.left_knee")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.left_knee}
+                            {results.left_knee + "°"}
                           </span>
                         </div>
-                      </div>
-                      <div className={styles.columns}>
+
                         <div
                           className={`${styles.columns_item} ${styles.firstColumn}`}
                         >
                           <span className={styles.infoSpan}>
-                            Angle of right elbow:
+                            {t("results.right_hip")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.right_elbow}
+                            {results.right_hip + "°"}
                           </span>
                         </div>
                         <div
                           className={`${styles.columns_item} ${styles.secondColumn}`}
                         >
                           <span className={styles.infoSpan}>
-                            Angle of left elbow:
+                            {t("results.left_hip")}
                           </span>
                           <span className={styles.dataSpan}>
-                            {results.left_elbow}
+                            {results.left_hip + "°"}
+                          </span>
+                        </div>
+
+                        <div
+                          className={`${styles.columns_item} ${styles.firstColumn}`}
+                        >
+                          <span className={styles.infoSpan}>
+                            {t("results.right_elbow")}
+                          </span>
+                          <span className={styles.dataSpan}>
+                            {results.right_elbow + "°"}
+                          </span>
+                        </div>
+                        <div
+                          className={`${styles.columns_item} ${styles.secondColumn}`}
+                        >
+                          <span className={styles.infoSpan}>
+                            {t("results.left_elbow")}
+                          </span>
+                          <span className={styles.dataSpan}>
+                            {results.left_elbow + "°"}
                           </span>
                         </div>
                       </div>
@@ -151,14 +172,14 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                       Your browser does not support the video tag.
                     </video>
                   </div>
-                  <p className={styles.video_text}>
-                    Click on the video to view in fullscreen.
-                    <br /> Our model added keypoints to the video to calculate
-                    the angles of the joints.
-                  </p>
                 </div>
               </div>
             </div>
+            <p className={styles.video_text}>
+              Click on the video to view in fullscreen.
+              <br /> Our model added keypoints to the video to calculate the
+              angles of the joints.
+            </p>
           </div>
         </>
       )}

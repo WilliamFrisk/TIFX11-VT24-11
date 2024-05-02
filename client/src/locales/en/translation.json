@@ -33,5 +33,13 @@
     "choose-button": "CHOOSE FILE",
     "upload-button": "UPLOAD",
     "quit-button": "QUIT"
+  },
+  "results": {
+    "right_knee": "Mean angle of right knee:",
+    "left_knee": "Mean angle of left knee:",
+    "right_hip": "Mean angle of right hip:",
+    "left_hip": "Mean angle of left hip:",
+    "right_elbow": "Mean angle of right elbow:",
+    "left_elbow": "Mean angle of left elbow:"
   }
 }

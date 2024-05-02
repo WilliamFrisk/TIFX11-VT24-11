@@ -26,12 +26,20 @@
   "upload-button": "LADDA UPP EN MP4-FIL",
   "terms-of-use": {
     "title": "VILLKOR FÖR ANVÄNDNING",
-    "first-line": "Denna modell syftar inte till att ge medicinska råd, rådfråga en läkare eller annan specialist innan du justerar ditt löpsteg",
-    "second-line": "När du analyserar dina data sparas data lokalt och raderas sedan, du kan när som helst dra tillbaka din data genom att trycka på avsluta",
-    "third-line": "Modellen ger bäst resultat när endast en person är i bild och när minst 5 löpsteg ingår",
-    "fourth-line": "Genom att använda modellen godkänner jag dessa villkor",
+    "first-line": "Denna modell syftar inte till att ge medicinska råd, rådfråga en läkare eller annan specialist innan du justerar ditt löpsteg.",
+    "second-line": "När du analyserar dina data sparas data lokalt och raderas sedan, du kan när som helst dra tillbaka din data genom att trycka på avsluta.",
+    "third-line": "Modellen ger bäst resultat när videon är mellan 10 och 20 sekunder lång och en person i bild. Modellen stödjer endast MP4-filer.",
+    "fourth-line": "Genom att använda modellen godkänner jag dessa villkor.",
     "choose-button": "VÄLJ FIL",
     "upload-button": "LADDA UPP",
     "quit-button": "AVSLUTA"
+  },
+  "results": {
+    "right_knee": "Genomsnittlig vinkel för höger knä:",
+    "left_knee": "Genomsnittlig vinkel för vänster knä:",
+    "right_hip": "Genomsnittlig vinkel för höger höft:",
+    "left_hip": "Genomsnittlig vinkel för vänster höft:",
+    "right_elbow": "Genomsnittlig vinkel för höger armbåge:",
+    "left_elbow": "Genomsnittlig vinkel för vänster armbåge:"
   }
 }
