@@ -62,7 +62,7 @@ def standard_motionbert_inference(video):
 
 def custom_rtmpose_motionbert_inference(video):
     inferencer = MMPoseInferencer(pose2d='rtmpose-m_8xb256-420e_coco-256x192',
-                                  pose2d_weights='app/model/checkpoints/bad_rtmpose_epoch_390.pth',
+                                  pose2d_weights='app/model/checkpoints/best_coco_AP_epoch_90.pth',
                                   pose3d='human3d',
                                   device='cpu')
 
@@ -71,8 +71,8 @@ def custom_rtmpose_motionbert_inference(video):
 
 
 def infere(video):
-    #return custom_rtmpose_motionbert_inference(video)
-    return standard_motionbert_inference(video)
+    return custom_rtmpose_motionbert_inference(video)
+    #return standard_motionbert_inference(video)
 
 
 if __name__ == "__main__":

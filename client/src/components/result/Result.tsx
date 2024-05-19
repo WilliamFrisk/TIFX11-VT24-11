@@ -55,10 +55,10 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
       });
 
       socket.on("video_saved", (...args) => {
-        const file = new File([args[0].video_data], "result.mp4", {
+        const newFile = new File([args[0].video_data], file.name, {
           type: "video/mp4",
         });
-        setVideo(file);
+        setVideo(newFile);
         setResults(args[0].additional_data);
 
         setIsLoading(false);

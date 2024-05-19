@@ -30,9 +30,7 @@ const AboutUs: React.FC = () => {
             <p className="text-padding">
               {t("about-us.mail")}
               <br />
-              <a href="mailto:weareprettycool@gmail.com">
-                weareprettycool@gmail.com
-              </a>
+              <a href="mailto:isachans@chalmers.se">isachans@chalmers.se</a>
             </p>
           </Row>
         </Col>
