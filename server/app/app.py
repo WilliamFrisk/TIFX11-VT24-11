@@ -51,7 +51,7 @@ def handle_end_video_transfer(filename):
             else: 
                 additional_data = infere(local_filename)
 
-            with open( local_filename, 'rb') as video_file:
+            with open('results/' + local_filename, 'rb') as video_file:
                 video_data = video_file.read()
                 
                 payload = {'video_data': video_data, 'additional_data': additional_data}

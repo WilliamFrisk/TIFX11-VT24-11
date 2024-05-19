@@ -82,7 +82,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
       {isLoading ? (
         <div className={styles.overlay}>
           <Spinner animation="border" />
-          <p className={styles.overlay_text}>{t(results.process)}</p>
+          <p className={styles.overlay_text}>{t("results.process")}</p>
         </div>
       ) : (
         <>

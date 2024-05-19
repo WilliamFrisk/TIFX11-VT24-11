@@ -44,12 +44,12 @@ def calculate_angles_from_inference_results(results: list):
                                   [result['predictions'][0][0]['keypoints'][16] for result in results])
 
     return {
-    "left_knee": Math.round(left_knee_avg_angle * 100) / 100,
-    'right_knee': Math.round(right_knee_avg_angle * 100) / 100,
-    'left_elbow': Math.round(left_elbow_avg_angle * 100) / 100,
-    'right_elbow': Math.round(right_elbow_avg_angle * 100) / 100,
-    'left_hip': Math.round(left_hip_avg_angle * 100) / 100,
-    'right_hip': Math.round(right_hip_avg_angle * 100) / 100
+    "left_knee": round(left_knee_avg_angle, 2),
+    'right_knee': round(right_knee_avg_angle, 2),
+    'left_elbow': round(left_elbow_avg_angle, 2),
+    'right_elbow': round(right_elbow_avg_angle, 2),
+    'left_hip': round(left_hip_avg_angle, 2),
+    'right_hip': round(right_hip_avg_angle, 2)
     }
 
 
