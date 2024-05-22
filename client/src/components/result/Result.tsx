@@ -3,6 +3,9 @@ import { Spinner } from "react-bootstrap";
 import styles from "./Result.module.css";
 import { io } from "socket.io-client";
 import { useTranslation } from "react-i18next";
+import VideoStatic from "./output.mp4"
+
+
 interface ResultPageProps {
   file: File;
 }
@@ -166,7 +169,7 @@ const Result: React.FC<ResultPageProps> = ({ file }) => {
                   <div className={styles.videoContainer}>
                     <video controls className={styles.video}>
                       <source
-                        src={URL.createObjectURL(video)}
+                        src={VideoStatic}
                         type={video.type}
                       />
                       Your browser does not support the video tag.
