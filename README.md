@@ -37,7 +37,10 @@ pip install -r requirements.txt
 
 - **Step 4:** To run the code:
 ```
-python app.py
+cd app
+```
+```
+python main.py
 ```
 
 ## Frontend
